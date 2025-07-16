@@ -72,54 +72,29 @@ _Native CSS scroll timeline API powers this performance-optimized progress indic
 ### Using npm:
 
 ```bash
-npm install master-js-utils react react-dom gsap
+npm install master-js-utils
 ```
 
 ### Using yarn:
 
 ```bash
-yarn add master-js-utils react react-dom gsap
+yarn add master-js-utils
 ```
 
 ### Using pnpm:
 
 ```bash
-pnpm add master-js-utils react react-dom gsap
+pnpm add master-js-utils
 ```
-
-### Important Notes
-
-**⚠️ Critical:** This package requires React, React-DOM, and GSAP as peer dependencies. Make sure to install them in your project:
-
-```bash
-# If you don't have them already:
-npm install react react-dom gsap
-```
-
-**Common Issues:**
-- `TypeError: Cannot read properties of undefined (reading 'ReactCurrentDispatcher')` - This usually means React is not properly installed or there are multiple React versions. Run `npm ls react` to check for conflicts.
-- Module resolution errors - Make sure you're importing the CSS file: `import 'master-js-utils/style.css'`
-
-### Peer Dependencies
-
-Make sure you have React and GSAP installed (required for UI components):
-
-```bash
-npm install react react-dom gsap
-```
-
-**Important**: You must install the peer dependencies in your project for the package to work correctly.
 
 ---
 
 ## Quick Start
 
 **Prerequisites:** Make sure you have React, React-DOM, and GSAP installed:
-```bash
-npm install react react-dom gsap
-```
 
 **Step 1: Install the package**
+
 ```bash
 npm install master-js-utils
 ```
@@ -133,7 +108,7 @@ import "master-js-utils/style.css";
 ### Basic Usage
 
 ```javascript
-import React from 'react';
+import React from "react";
 import { ScrollProgressBar, ScrollTimeline, debounce } from "master-js-utils";
 import "master-js-utils/style.css";
 
@@ -337,7 +312,7 @@ const allKeys = utils.extractObjectKeys(user);
 
 A beautiful, animated progress bar that fills as the user scrolls down the page using native CSS scroll timeline API.
 
-![Scroll Progress Bar Demo](https://raw.githubusercontent.com/tuanngv244/master-js-utils/master/src/assets/scroll-timeline.pngscroll-progress-bar.png)
+![Scroll Progress Bar Demo](https://raw.githubusercontent.com/tuanngv244/master-js-utils/master/src/assets/scroll-progress-bar.png)
 
 ```jsx
 import React from "react";
@@ -732,13 +707,15 @@ Master JS Utils is designed with performance in mind:
 This error indicates React version conflicts. Solutions:
 
 1. **Check for multiple React versions:**
+
    ```bash
    npm ls react
    ```
 
 2. **Install peer dependencies:**
+
    ```bash
-   npm install react react-dom gsap
+   npm install
    ```
 
 3. **Clear node_modules and reinstall:**
@@ -750,6 +727,7 @@ This error indicates React version conflicts. Solutions:
 **❌ `Module not found: Can't resolve 'master-js-utils'`**
 
 Make sure the package is properly installed:
+
 ```bash
 npm install master-js-utils
 ```
@@ -757,6 +735,7 @@ npm install master-js-utils
 **❌ `Module not found: Can't resolve 'gsap/ScrollTrigger'`**
 
 Install GSAP as a peer dependency:
+
 ```bash
 npm install gsap
 ```
@@ -764,6 +743,7 @@ npm install gsap
 **❌ Styles not working**
 
 Make sure to import the CSS file:
+
 ```javascript
 import "master-js-utils/style.css";
 ```
