@@ -1,6 +1,6 @@
 {
   "name": "master-js-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./dist/master-js-utils.cjs",
   "module": "./dist/master-js-utils.es.js",
   "types": "./dist/index.d.ts",
