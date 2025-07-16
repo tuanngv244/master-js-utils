@@ -18,13 +18,13 @@ A powerful collection of JavaScript/TypeScript utilities and React UI components
 
 ### ScrollTimeline Component in Action
 
-![ScrollTimeline Component Demo](./src/assets/scroll-timeline.png)
+![ScrollTimeline Component Demo](https://raw.githubusercontent.com/tuanngv244/master-js-utils/master/src/assets/scroll-timeline.png)
 
 _Experience smooth scroll-triggered animations with our interactive timeline component featuring progressive content reveal, animated year indicators, and responsive design._
 
 ### ScrollProgressBar Component
 
-![ScrollProgressBar Component Demo](./src/assets/scroll-progress-bar.png)
+![ScrollProgressBar Component Demo](https://raw.githubusercontent.com/tuanngv244/master-js-utils/master/src/assets/scroll-progress-bar.png)
 
 _Native CSS scroll timeline API powers this performance-optimized progress indicator with beautiful gradient effects._
 
@@ -303,7 +303,7 @@ const allKeys = utils.extractObjectKeys(user);
 
 A beautiful, animated progress bar that fills as the user scrolls down the page using native CSS scroll timeline API.
 
-![Scroll Progress Bar Demo](./src/assets/scroll-progress-bar.png)
+![Scroll Progress Bar Demo](https://raw.githubusercontent.com/tuanngv244/master-js-utils/master/src/assets/scroll-progress-bar.png)
 
 ```jsx
 import React from "react";
@@ -361,7 +361,7 @@ The component uses Tailwind CSS classes with a beautiful gradient. The progress 
 
 An interactive, animated timeline component that reveals content as the user scrolls, powered by GSAP ScrollTrigger with bubble effects and smooth animations.
 
-![Scroll Timeline Demo](./src/assets/scroll-timeline.png)
+![Scroll Timeline Demo](https://raw.githubusercontent.com/tuanngv244/master-js-utils/master/src/assets/scroll-timeline.png)
 
 _Interactive timeline showing company development milestones with animated reveals and smooth scroll effects_
 
@@ -450,7 +450,7 @@ The component includes rich demo data covering development milestones from 2012-
 - **Desktop**: Alternating left/right layout with centered timeline
 - **Mobile**: Consistent left-aligned layout with timeline on the left edge
 
-![Timeline Mobile vs Desktop](./src/assets/scroll-timeline.png)
+![Timeline Mobile vs Desktop](https://raw.githubusercontent.com/tuanngv244/master-js-utils/master/src/assets/scroll-timeline.png)
 
 _Responsive design automatically adapts layout for optimal viewing on all devices_
 
