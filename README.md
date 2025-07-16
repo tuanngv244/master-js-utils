@@ -72,20 +72,33 @@ _Native CSS scroll timeline API powers this performance-optimized progress indic
 ### Using npm:
 
 ```bash
-npm install master-js-utils
+npm install master-js-utils react react-dom gsap
 ```
 
 ### Using yarn:
 
 ```bash
-yarn add master-js-utils
+yarn add master-js-utils react react-dom gsap
 ```
 
 ### Using pnpm:
 
 ```bash
-pnpm add master-js-utils
+pnpm add master-js-utils react react-dom gsap
 ```
+
+### Important Notes
+
+**⚠️ Critical:** This package requires React, React-DOM, and GSAP as peer dependencies. Make sure to install them in your project:
+
+```bash
+# If you don't have them already:
+npm install react react-dom gsap
+```
+
+**Common Issues:**
+- `TypeError: Cannot read properties of undefined (reading 'ReactCurrentDispatcher')` - This usually means React is not properly installed or there are multiple React versions. Run `npm ls react` to check for conflicts.
+- Module resolution errors - Make sure you're importing the CSS file: `import 'master-js-utils/style.css'`
 
 ### Peer Dependencies
 
@@ -101,31 +114,42 @@ npm install react react-dom gsap
 
 ## Quick Start
 
-**Step 1: Import the CSS (required for UI components)**
+**Prerequisites:** Make sure you have React, React-DOM, and GSAP installed:
+```bash
+npm install react react-dom gsap
+```
+
+**Step 1: Install the package**
+```bash
+npm install master-js-utils
+```
+
+**Step 2: Import the CSS (required for UI components)**
 
 ```javascript
 import "master-js-utils/style.css";
 ```
 
-### Import Everything
+### Basic Usage
 
 ```javascript
-import MasterUtils from "master-js-utils";
+import React from 'react';
+import { ScrollProgressBar, ScrollTimeline, debounce } from "master-js-utils";
 import "master-js-utils/style.css";
 
-// Use utilities
-const debouncedFn = MasterUtils.utils.debounce(
-  () => console.log("Hello!"),
-  300
-);
+function App() {
+  const debouncedFn = debounce(() => console.log("Hello!"), 300);
 
-// Use UI components
-const MyComponent = () => (
-  <div>
-    <MasterUtils.ui.ScrollProgressBar />
-    <MasterUtils.ui.ScrollTimeline />
-  </div>
-);
+  return (
+    <div>
+      <ScrollProgressBar />
+      <ScrollTimeline />
+      <button onClick={debouncedFn}>Test Debounce</button>
+    </div>
+  );
+}
+
+export default App;
 ```
 
 ### Import Specific Utilities
@@ -696,6 +720,62 @@ Master JS Utils is designed with performance in mind:
 - ScrollProgressBar: ~1KB gzipped (CSS only)
 - ScrollTimeline: ~4KB gzipped (includes GSAP animations)
 - Total package: ~7KB gzipped
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**❌ `TypeError: Cannot read properties of undefined (reading 'ReactCurrentDispatcher')`**
+
+This error indicates React version conflicts. Solutions:
+
+1. **Check for multiple React versions:**
+   ```bash
+   npm ls react
+   ```
+
+2. **Install peer dependencies:**
+   ```bash
+   npm install react react-dom gsap
+   ```
+
+3. **Clear node_modules and reinstall:**
+   ```bash
+   rm -rf node_modules package-lock.json
+   npm install
+   ```
+
+**❌ `Module not found: Can't resolve 'master-js-utils'`**
+
+Make sure the package is properly installed:
+```bash
+npm install master-js-utils
+```
+
+**❌ `Module not found: Can't resolve 'gsap/ScrollTrigger'`**
+
+Install GSAP as a peer dependency:
+```bash
+npm install gsap
+```
+
+**❌ Styles not working**
+
+Make sure to import the CSS file:
+```javascript
+import "master-js-utils/style.css";
+```
+
+### Getting Help
+
+If you're still experiencing issues:
+
+1. Check the [GitHub Issues](https://github.com/tuanngv244/master-js-utils/issues)
+2. Create a minimal reproduction case
+3. Include your package.json dependencies
+4. Mention your React and Node.js versions
 
 ---
 

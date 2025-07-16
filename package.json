@@ -1,6 +1,6 @@
 {
   "name": "master-js-utils",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "funding": {
     "type": "buymeacoffee",
     "url": "https://www.buymeacoffee.com/sbaoi40nv7"
@@ -24,9 +24,20 @@
     "build": "vite build"
   },
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "gsap": "^3.13.0"
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
+    "gsap": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": false
+    },
+    "react-dom": {
+      "optional": false
+    },
+    "gsap": {
+      "optional": false
+    }
   },
   "devDependencies": {
     "@types/node": "^24.0.14",

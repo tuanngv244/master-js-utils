@@ -12,11 +12,17 @@ export default defineConfig({
       formats: ["es", "cjs"],
     },
     rollupOptions: {
-      external: ["react", "react-dom", "gsap"],
+      external: (id) => {
+        // Externalize all React, React-DOM, and GSAP imports
+        return ['react', 'react-dom', 'react/jsx-runtime', 'gsap'].some(pkg => 
+          id === pkg || id.startsWith(pkg + '/')
+        );
+      },
       output: {
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
+          "react/jsx-runtime": "React",
           gsap: "gsap",
         },
       },
