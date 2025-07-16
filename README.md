@@ -89,20 +89,29 @@ pnpm add master-js-utils
 
 ### Peer Dependencies
 
-Make sure you have React installed (required for UI components):
+Make sure you have React and GSAP installed (required for UI components):
 
 ```bash
-npm install react react-dom
+npm install react react-dom gsap
 ```
+
+**Important**: You must install the peer dependencies in your project for the package to work correctly.
 
 ---
 
 ## Quick Start
 
+**Step 1: Import the CSS (required for UI components)**
+
+```javascript
+import "master-js-utils/style.css";
+```
+
 ### Import Everything
 
 ```javascript
 import MasterUtils from "master-js-utils";
+import "master-js-utils/style.css";
 
 // Use utilities
 const debouncedFn = MasterUtils.utils.debounce(
@@ -131,6 +140,7 @@ const { debounce, dates, catchError } = utils;
 
 ```javascript
 import { ScrollProgressBar, ScrollTimeline } from "master-js-utils";
+import "master-js-utils/style.css"; // Required for styling
 
 const App = () => (
   <div>

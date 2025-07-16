@@ -8,7 +8,7 @@ export default defineConfig({
     lib: {
       entry: "src/index.ts",
       name: "MasterJsUtils",
-      fileName: "master-js-utils",
+      fileName: (format) => `master-js-utils.${format === 'es' ? 'mjs' : 'js'}`,
       formats: ["es", "cjs"],
     },
     rollupOptions: {
