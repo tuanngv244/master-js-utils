@@ -303,7 +303,7 @@ const allKeys = utils.extractObjectKeys(user);
 
 A beautiful, animated progress bar that fills as the user scrolls down the page using native CSS scroll timeline API.
 
-![Scroll Progress Bar Demo](https://raw.githubusercontent.com/tuanngv244/master-js-utils/master/src/assets/scroll-progress-bar.png)
+![Scroll Progress Bar Demo](https://raw.githubusercontent.com/tuanngv244/master-js-utils/master/src/assets/scroll-timeline.pngscroll-progress-bar.png)
 
 ```jsx
 import React from "react";
@@ -762,7 +762,12 @@ master-js-utils/
 ---
 
 <div align="center">
-  <p>Made with ❤️ for the JavaScript community</p>
+<a href="https://www.buymeacoffee.com/sbaoi40nv7" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="40" />
+</a>
+<br />
+  <p >Made with ❤️ for the JavaScript community</p>
+  
   <p>
     <a href="https://github.com/tuanngv244/master-js-utils">⭐ Star on GitHub</a> •
     <a href="https://github.com/tuanngv244/master-js-utils/issues">🐛 Report Bug</a> •

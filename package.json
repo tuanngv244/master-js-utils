@@ -1,6 +1,10 @@
 {
   "name": "master-js-utils",
   "version": "1.0.1",
+  "funding": {
+    "type": "buymeacoffee",
+    "url": "https://www.buymeacoffee.com/sbaoi40nv7"
+  },
   "main": "./dist/master-js-utils.cjs",
   "module": "./dist/master-js-utils.es.js",
   "types": "./dist/index.d.ts",
