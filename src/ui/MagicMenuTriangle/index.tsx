@@ -69,14 +69,14 @@ const MagicMenuTriangle = ({ ulClsStyles, liClsStyles, data }: Props) => {
 
           MAGIC_A = { x: e.pageX, y: e.pageY };
           MAGIC_B = {
-            x: itemSiblingsSubMenu[0].offsetLeft,
-            y: itemSiblingsSubMenu[0].offsetTop,
+            x: itemSiblingsSubMenu?.[0]?.offsetLeft,
+            y: itemSiblingsSubMenu?.[0]?.offsetTop,
           };
           MAGIC_C = {
-            x: itemSiblingsSubMenu[0].offsetLeft,
+            x: itemSiblingsSubMenu?.[0]?.offsetLeft,
             y:
-              itemSiblingsSubMenu[0].offsetTop +
-              itemSiblingsSubMenu[0].offsetHeight,
+              itemSiblingsSubMenu?.[0]?.offsetTop +
+              itemSiblingsSubMenu?.[0]?.offsetHeight,
           };
           magicTriangle.setAttribute(
             "points",
