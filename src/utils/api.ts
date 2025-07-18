@@ -6,4 +6,28 @@ const catchError = <T>(
     .catch((err) => [err]);
 };
 
-export default catchError;
+const retryFetch = async (
+  fn: (...args: any[]) => void,
+  retries = 3,
+  delay = 0
+) => {
+  return async (...args: any[]) => {
+    for (let count = 0; count < retries; count++) {
+      try {
+        await fn(...args);
+        break;
+      } catch (err) {
+        if ((err as { code: string })?.code !== "ERR_CANCELLED") {
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        } else {
+          break;
+        }
+      }
+    }
+  };
+};
+
+export default {
+  catchError,
+  retryFetch,
+};

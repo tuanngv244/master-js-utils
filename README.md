@@ -42,11 +42,16 @@ _Native CSS scroll timeline API powers this performance-optimized progress indic
   - [API Error Handling](#api-error-handling)
   - [Parameter Filtering](#parameter-filtering)
   - [Object Key Extraction](#object-key-extraction)
+  - [Text Measurement](#text-measurement)
+  - [Request Abort Controller](#request-abort-controller)
 - [UI Components](#ui-components)
   - [ScrollProgressBar](#scrollprogressbar)
   - [ScrollTimeline](#scrolltimeline)
+  - [DetectIntersectionObserver](#detectintersectionobserver)
+  - [MagicMenuTriangle](#magicmenutriangle)
 - [Browser Support](#browser-support)
 - [TypeScript](#typescript)
+- [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -54,11 +59,15 @@ _Native CSS scroll timeline API powers this performance-optimized progress indic
 
 ## Features
 
-- ⚡ **Essential Utilities**: Debouncing, date manipulation, API error handling, parameter filtering, and object key extraction
-- 🎨 **React UI Components**: Beautiful, customizable components with smooth GSAP animations
+- ⚡ **Essential Utilities**: Debouncing, date manipulation, API error handling, parameter filtering, object key extraction, text measurement, and request abort control
+- 🎨 **React UI Components**: Beautiful, customizable components with smooth GSAP animations, intersection observers, and intelligent menu systems
 - 📱 **Responsive Design**: Mobile-first components that adapt seamlessly to all screen sizes
 - 🌟 **Native CSS Animations**: Performance-optimized scroll progress with CSS scroll timeline API
 - 🎭 **GSAP ScrollTrigger**: Advanced scroll-based animations with bubble effects and timeline reveals
+- 🔄 **Intersection Observer**: Efficient viewport detection for lazy loading and trigger events
+- 🎯 **Smart Navigation**: Magic triangle menu system for enhanced user experience
+- 📐 **Text Measurement**: Precise text dimension calculation for dynamic layouts
+- 🛑 **Request Management**: Centralized abort controller for API request cancellation
 - 🎯 **TypeScript First**: Comprehensive type definitions and interfaces for better developer experience
 - 📦 **Tree Shakeable**: Import only what you need to minimize bundle size
 - ♿ **Accessibility**: Respects user preferences for reduced motion
@@ -109,16 +118,61 @@ import "master-js-utils/style.css";
 
 ```javascript
 import React from "react";
-import { ScrollProgressBar, ScrollTimeline, debounce } from "master-js-utils";
+import {
+  ScrollProgressBar,
+  ScrollTimeline,
+  DetectIntersectionObserver,
+  MagicMenuTriangle,
+  debounce,
+  utils,
+} from "master-js-utils";
 import "master-js-utils/style.css";
 
 function App() {
   const debouncedFn = debounce(() => console.log("Hello!"), 300);
 
+  // Text measurement example
+  const textSize = utils.measureText("Sample Text", "16px Arial");
+
+  // Request controller example
+  const aborter = new utils.Aborter();
+
+  const handleIntersection = () => {
+    console.log("Element is visible!");
+  };
+
+  const menuData = [
+    {
+      label: "Home",
+      path: "/",
+      subs: [
+        { label: "Dashboard", path: "/dashboard" },
+        { label: "Profile", path: "/profile" },
+      ],
+    },
+  ];
+
   return (
     <div>
       <ScrollProgressBar />
+
+      <MagicMenuTriangle
+        data={menuData}
+        ulClsStyles="flex space-x-4"
+        liClsStyles="px-4 py-2 hover:bg-gray-100"
+      />
+
       <ScrollTimeline />
+
+      <DetectIntersectionObserver onProcess={handleIntersection}>
+        <div className="h-96 bg-blue-100 p-8">
+          <h2>This triggers when visible</h2>
+          <p>
+            Text dimensions: {textSize.width}x{textSize.height}
+          </p>
+        </div>
+      </DetectIntersectionObserver>
+
       <button onClick={debouncedFn}>Test Debounce</button>
     </div>
   );
@@ -132,13 +186,29 @@ export default App;
 ```javascript
 import { utils } from "master-js-utils";
 
-const { debounce, dates, catchError } = utils;
+const {
+  debounce,
+  dates,
+  apis,
+  params,
+  measureText,
+  extractObjectKeys,
+  Aborter,
+} = utils;
+
+// Or import individual utilities
+import { debounce, measureText, Aborter } from "master-js-utils";
 ```
 
 ### Import Specific UI Components
 
 ```javascript
-import { ScrollProgressBar, ScrollTimeline } from "master-js-utils";
+import {
+  ScrollProgressBar,
+  ScrollTimeline,
+  DetectIntersectionObserver,
+  MagicMenuTriangle,
+} from "master-js-utils";
 import "master-js-utils/style.css"; // Required for styling
 
 const App = () => (
@@ -306,6 +376,86 @@ const allKeys = utils.extractObjectKeys(user);
 
 ---
 
+### Text Measurement
+
+Precisely measure text dimensions for dynamic layouts and responsive design calculations.
+
+```javascript
+import { utils } from "master-js-utils";
+
+const textDimensions = utils.measureText("Hello World!", "16px Arial");
+console.log(textDimensions); // { width: 85.5, height: 19 }
+
+// Useful for dynamic sizing
+const calculateContainerWidth = (text, font) => {
+  const { width } = utils.measureText(text, font);
+  return width + 20; // Add padding
+};
+```
+
+**Parameters:**
+
+- `text` (string): The text to measure
+- `font` (string): CSS font specification (e.g., "16px Arial", "bold 14px sans-serif")
+
+**Returns:** Object with `width` and `height` properties in pixels
+
+**Use Cases:**
+
+- Dynamic tooltip sizing
+- Text truncation calculations
+- Responsive layout adjustments
+- Canvas text rendering
+
+---
+
+### Request Abort Controller
+
+Centralized management of API request cancellation with named abort signals.
+
+```javascript
+import { utils } from "master-js-utils";
+
+const aborter = new utils.Aborter();
+
+// Create abort signal for a specific request
+const signal = aborter.newSignal("user-fetch");
+
+// Use with fetch API
+fetch("/api/users", { signal })
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((err) => {
+    if (err.name === "AbortError") {
+      console.log("Request was cancelled");
+    }
+  });
+
+// Cancel the request
+aborter.abort("user-fetch");
+
+// Multiple requests
+const searchSignal = aborter.newSignal("search");
+const profileSignal = aborter.newSignal("profile");
+
+// Previous "search" request is automatically cancelled when creating a new one
+const newSearchSignal = aborter.newSignal("search");
+```
+
+**Methods:**
+
+- `newSignal(key: string)`: Creates a new abort signal for the given key. If a signal with the same key exists, it's automatically aborted first.
+- `abort(key: string)`: Manually abort a specific request by key
+
+**Use Cases:**
+
+- Search autocomplete (cancel previous searches)
+- Component unmounting cleanup
+- User navigation (cancel pending requests)
+- Preventing race conditions
+
+---
+
 ## UI Components
 
 ### ScrollProgressBar
@@ -465,6 +615,167 @@ _Responsive design automatically adapts layout for optimal viewing on all device
 
 ---
 
+### DetectIntersectionObserver
+
+A React component that triggers callbacks when elements enter the viewport, perfect for lazy loading, analytics, and scroll-based animations.
+
+```jsx
+import React, { useState } from "react";
+import { DetectIntersectionObserver } from "master-js-utils";
+
+const LazySection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [loadCount, setLoadCount] = useState(0);
+
+  const handleIntersection = () => {
+    setIsVisible(true);
+    setLoadCount((prev) => prev + 1);
+    console.log("Element is now visible!");
+  };
+
+  return (
+    <DetectIntersectionObserver onProcess={handleIntersection}>
+      <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
+        {isVisible ? (
+          <div className="p-8 text-white">
+            <h2>Content Loaded! (Triggered {loadCount} times)</h2>
+            <p>
+              This content was lazy-loaded when the element entered the
+              viewport.
+            </p>
+          </div>
+        ) : (
+          <div className="p-8 text-white">
+            <p>Scroll to trigger the intersection observer...</p>
+          </div>
+        )}
+      </div>
+    </DetectIntersectionObserver>
+  );
+};
+```
+
+**Props:**
+
+- `onProcess` (VoidFunction): Callback function triggered when the element intersects with the viewport
+- `children` (React.ReactNode, optional): Child elements to render inside the observer wrapper
+
+**Features:**
+
+- 🎯 **Efficient Detection**: Uses native Intersection Observer API for optimal performance
+- 🔄 **Automatic Cleanup**: Properly disconnects observers to prevent memory leaks
+- 📱 **Cross-Platform**: Works consistently across all modern browsers
+- ⚡ **Zero Dependencies**: Pure React implementation with no external dependencies
+
+**Use Cases:**
+
+- Lazy loading images and content
+- Triggering animations on scroll
+- Analytics and user behavior tracking
+- Infinite scroll implementations
+- Progressive content loading
+
+---
+
+### MagicMenuTriangle
+
+An intelligent navigation component that implements the "magic triangle" UX pattern for enhanced dropdown menu interaction, preventing accidental menu closes when navigating to submenus.
+
+```jsx
+import React from "react";
+import { MagicMenuTriangle, MenuItem } from "master-js-utils";
+import "./style.css";
+
+const navigationData: MenuItem[] = [
+  {
+    label: "Products",
+    path: "/products",
+    subs: [
+      { label: "Web Development", path: "/products/web" },
+      { label: "Mobile Apps", path: "/products/mobile" },
+      { label: "Desktop Software", path: "/products/desktop" },
+    ],
+  },
+  {
+    label: "Services",
+    path: "/services",
+    subs: [
+      { label: "Consulting", path: "/services/consulting" },
+      { label: "Support", path: "/services/support" },
+      { label: "Training", path: "/services/training" },
+    ],
+  },
+  {
+    label: "About",
+    path: "/about",
+    target: "_self",
+  },
+];
+
+const Navigation = () => {
+  return (
+    <nav>
+      <MagicMenuTriangle
+        data={navigationData}
+        ulClsStyles="flex space-x-6 bg-white shadow-lg"
+        liClsStyles="relative group hover:bg-gray-100 px-4 py-2"
+      />
+
+      {/* Magic triangle SVG for visualization (automatically managed) */}
+      <svg className="absolute top-0 left-0 pointer-events-none opacity-25">
+        <polygon id="magic-triangle" fill="red" />
+      </svg>
+    </nav>
+  );
+};
+```
+
+**Props:**
+
+- `data` (MenuItem[], optional): Array of menu items with optional submenus
+- `ulClsStyles` (string, optional): CSS classes for the main menu container
+- `liClsStyles` (string, optional): CSS classes for individual menu items
+
+**TypeScript Interface:**
+
+```typescript
+export interface MenuItem {
+  label: string;
+  path: string;
+  target?: "_blank" | "_self";
+  subs?: MenuItem[];
+}
+```
+
+**Features:**
+
+- 🎯 **Magic Triangle Algorithm**: Implements sophisticated geometry calculations to create an invisible triangle zone
+- 🖱️ **Enhanced UX**: Prevents accidental submenu closures when moving cursor toward submenu
+- 📐 **Geometric Precision**: Uses triangle area calculations for precise mouse position detection
+- ⚡ **Performance Optimized**: Efficient event handling with minimal DOM manipulation
+- 🎨 **Highly Customizable**: Full control over styling via CSS classes
+- 📱 **Responsive Ready**: Works seamlessly across different screen sizes
+
+**How it Works:**
+
+The component creates an invisible triangle between the cursor position and the submenu corners. If the user's mouse stays within this triangle while moving toward the submenu, the menu remains open. This prevents the frustrating experience of menus closing when users navigate diagonally toward submenus.
+
+**Algorithm Details:**
+
+1. **Triangle Formation**: Creates a triangle using cursor position as one vertex and submenu corners as other vertices
+2. **Area Calculation**: Uses mathematical area calculation to determine if mouse is within triangle
+3. **Direction Detection**: Monitors mouse movement direction to enable/disable triangle detection
+4. **Smart Cleanup**: Automatically manages event listeners and memory cleanup
+
+**Use Cases:**
+
+- Complex navigation menus with multiple levels
+- E-commerce category navigation
+- Dashboard and admin panel menus
+- Any UI requiring precise hover interactions
+
+---
+
 ## Browser Support
 
 | ![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/main/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/main/src/firefox/firefox_48x48.png) | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/main/src/safari/safari_48x48.png) | ![Edge](https://raw.githubusercontent.com/alrra/browser-logos/main/src/edge/edge_48x48.png) |
@@ -492,12 +803,30 @@ _Responsive design automatically adapts layout for optimal viewing on all device
 Master JS Utils includes comprehensive TypeScript definitions for all utilities and components.
 
 ```typescript
-import { utils, ui, TimelineItem } from "master-js-utils";
+import {
+  utils,
+  ui,
+  TimelineItem,
+  MenuItem,
+  ScrollProgressBar,
+  DetectIntersectionObserver,
+  MagicMenuTriangle,
+} from "master-js-utils";
 
 // Utilities are fully typed
 const debouncedFn: (query: string) => void = utils.debounce((query: string) => {
   console.log(query);
 }, 300);
+
+// Text measurement with typed return
+const textSize: { width: number; height: number } = utils.measureText(
+  "Hello World",
+  "16px Arial"
+);
+
+// Request controller with typed methods
+const aborter: utils.Aborter = new utils.Aborter();
+const signal: AbortSignal = aborter.newSignal("api-call");
 
 // Timeline data with proper typing
 const timeline: TimelineItem[] = [
@@ -507,17 +836,47 @@ const timeline: TimelineItem[] = [
   },
 ];
 
-// Component props are typed
-const MyComponent: React.FC = () => (
-  <div>
-    <ui.ScrollProgressBar clsStyles="h-2 bg-blue-500" />
-    <ui.ScrollTimeline
-      list={timeline}
-      clsYearStyles="text-purple-600"
-      clsDescStyles="text-gray-700"
-    />
-  </div>
-);
+// Menu data with proper typing
+const menuData: MenuItem[] = [
+  {
+    label: "Products",
+    path: "/products",
+    target: "_self",
+    subs: [
+      { label: "Web Apps", path: "/products/web" },
+      { label: "Mobile Apps", path: "/products/mobile" },
+    ],
+  },
+];
+
+// Component props are fully typed
+const MyComponent: React.FC = () => {
+  const handleIntersection = (): void => {
+    console.log("Element intersected!");
+  };
+
+  return (
+    <div>
+      <ScrollProgressBar clsStyles="h-2 bg-blue-500" />
+
+      <MagicMenuTriangle
+        data={menuData}
+        ulClsStyles="flex space-x-4"
+        liClsStyles="px-4 py-2"
+      />
+
+      <DetectIntersectionObserver onProcess={handleIntersection}>
+        <div>Content to observe</div>
+      </DetectIntersectionObserver>
+
+      <ui.ScrollTimeline
+        list={timeline}
+        clsYearStyles="text-purple-600"
+        clsDescStyles="text-gray-700"
+      />
+    </div>
+  );
+};
 
 // Date utilities return typed Date objects
 const lastMonth: Date = utils.dates.getLastMonth();
