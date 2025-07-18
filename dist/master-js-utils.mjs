@@ -1,18 +1,18 @@
-var E = Object.defineProperty;
-var C = (e, t, r) => t in e ? E(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
-var T = (e, t, r) => C(e, typeof t != "symbol" ? t + "" : t, r);
-import { jsx as s, jsxs as v, Fragment as k } from "react/jsx-runtime";
-import { useRef as w, useEffect as S, useCallback as L } from "react";
-import { gsap as h } from "gsap";
-import { ScrollTrigger as N } from "gsap/ScrollTrigger";
-const P = (e, t) => {
+var F = Object.defineProperty;
+var I = (e, t, r) => t in e ? F(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
+var k = (e, t, r) => I(e, typeof t != "symbol" ? t + "" : t, r);
+import { jsx as s, jsxs as x, Fragment as O } from "react/jsx-runtime";
+import { useRef as N, useEffect as L, useCallback as S } from "react";
+import { gsap as v } from "gsap";
+import { ScrollTrigger as M } from "gsap/ScrollTrigger";
+const j = (e, t) => {
   let r = null;
-  return (...n) => {
+  return (...o) => {
     r && clearTimeout(r), r = setTimeout(() => {
-      e(...n);
+      e(...o);
     }, t);
   };
-}, R = {
+}, _ = {
   getLastMonth: () => {
     const e = /* @__PURE__ */ new Date(), t = new Date(e);
     return t.setMonth(e.getMonth() - 1), t;
@@ -38,42 +38,42 @@ const P = (e, t) => {
     return e.setDate(e.getDate() - 1), e;
   },
   getToday: () => /* @__PURE__ */ new Date()
-}, F = (e) => e ? Object.fromEntries(
+}, q = (e) => e ? Object.fromEntries(
   Object.entries(e).filter(
     ([t, r]) => r !== void 0 && r !== "" && r !== null
   )
-) : {}, I = (e) => {
+) : {}, X = (e) => {
   const t = new URLSearchParams();
-  return Object.entries(e).forEach(([r, n]) => {
-    Array.isArray(n) ? n.forEach((c) => t.append(r, c)) : t.append(r, n);
+  return Object.entries(e).forEach(([r, o]) => {
+    Array.isArray(o) ? o.forEach((c) => t.append(r, c)) : t.append(r, o);
   }), t.toString();
-}, O = {
-  filteredParams: F,
-  filteredParamsSerializer: I
-}, M = (e) => {
+}, G = {
+  filteredParams: q,
+  filteredParamsSerializer: X
+}, P = (e) => {
   let t = [];
   return Object.keys(e).forEach((r) => {
-    const n = r;
-    e[n] !== void 0 || typeof e[n] != "object" ? t.push(n) : t = [...t, ...M(e[n])];
+    const o = r;
+    e[o] !== void 0 || typeof e[o] != "object" ? t.push(o) : t = [...t, ...P(e[o])];
   }), t;
-}, j = (e) => e.then((t) => [void 0, t.data]).catch((t) => [t]), _ = async (e, t = 3, r = 0) => async (...n) => {
+}, Y = (e) => e.then((t) => [void 0, t.data]).catch((t) => [t]), B = async (e, t = 3, r = 0) => async (...o) => {
   for (let c = 0; c < t; c++)
     try {
-      await e(...n);
+      await e(...o);
       break;
     } catch (u) {
       if ((u == null ? void 0 : u.code) !== "ERR_CANCELLED")
-        await new Promise((g) => setTimeout(g, r));
+        await new Promise((p) => setTimeout(p, r));
       else
         break;
     }
-}, q = {
-  catchError: j,
-  retryFetch: _
+}, H = {
+  catchError: Y,
+  retryFetch: B
 };
-class X {
+class $ {
   constructor() {
-    T(this, "controllers", {});
+    k(this, "controllers", {});
     this.controllers = {};
   }
   newSignal(t) {
@@ -83,7 +83,7 @@ class X {
     this.controllers[t] && (this.controllers[t].abort(), delete this.controllers[t]);
   }
 }
-const G = (e, t) => {
+const z = (e, t) => {
   const r = document.createElement("span");
   r.appendChild(document.createTextNode(e)), Object.assign(r.style, {
     font: t,
@@ -91,11 +91,11 @@ const G = (e, t) => {
     padding: "0",
     border: "0"
   }), document.body.appendChild(r);
-  const { width: n, height: c } = r.getBoundingClientRect();
-  return r.remove(), { width: n, height: c };
+  const { width: o, height: c } = r.getBoundingClientRect();
+  return r.remove(), { width: o, height: c };
 };
-h.registerPlugin(N);
-const Y = [
+v.registerPlugin(M);
+const K = [
   {
     year: "2021",
     items: [
@@ -174,16 +174,16 @@ const Y = [
       "Began global future option market data vendor service"
     ]
   }
-], B = ({
+], V = ({
   list: e,
   clsYearStyles: t,
   clsDescStyles: r
 }) => {
-  const n = w(null), c = w(null), u = e || Y;
-  return S(() => {
-    const g = h.context(() => {
-      var o, i, a, l;
-      h.fromTo(
+  const o = N(null), c = N(null), u = e || K;
+  return L(() => {
+    const p = v.context(() => {
+      var n, i, a, l;
+      v.fromTo(
         c.current,
         {
           opacity: 0,
@@ -202,9 +202,9 @@ const Y = [
           }
         }
       );
-      const p = (o = n.current) == null ? void 0 : o.querySelectorAll(".timeline-item");
-      p == null || p.forEach((m, D) => {
-        h.fromTo(
+      const f = (n = o.current) == null ? void 0 : n.querySelectorAll(".timeline-item");
+      f == null || f.forEach((m, w) => {
+        v.fromTo(
           m.querySelector(".title-year"),
           {
             opacity: 0,
@@ -225,7 +225,7 @@ const Y = [
               toggleActions: "play none none reverse"
             }
           }
-        ), h.fromTo(
+        ), v.fromTo(
           m.querySelector(".desc"),
           {
             opacity: 0,
@@ -248,13 +248,13 @@ const Y = [
           }
         );
       });
-      const f = (i = n.current) == null ? void 0 : i.querySelector(".timeline-line");
-      f && h.set(f, { scaleY: 1, opacity: 1 });
-      const x = (a = n.current) == null ? void 0 : a.querySelector(
+      const y = (i = o.current) == null ? void 0 : i.querySelector(".timeline-line");
+      y && v.set(y, { scaleY: 1, opacity: 1 });
+      const D = (a = o.current) == null ? void 0 : a.querySelector(
         ".timeline-line-purple"
       );
-      x && h.fromTo(
-        x,
+      D && v.fromTo(
+        D,
         {
           height: "0%"
         },
@@ -262,7 +262,7 @@ const Y = [
           height: "100%",
           ease: "none",
           scrollTrigger: {
-            trigger: n.current,
+            trigger: o.current,
             start: "top center",
             end: "bottom center",
             scrub: 1,
@@ -271,9 +271,9 @@ const Y = [
           }
         }
       );
-      const b = (l = n.current) == null ? void 0 : l.querySelectorAll(".year-dot");
-      b == null || b.forEach((m, D) => {
-        h.fromTo(
+      const b = (l = o.current) == null ? void 0 : l.querySelectorAll(".year-dot");
+      b == null || b.forEach((m, w) => {
+        v.fromTo(
           m,
           {
             scale: 0,
@@ -292,17 +292,17 @@ const Y = [
             }
           }
         );
-        const y = document.createElement("div");
-        y.className = "absolute inset-0 rounded-full border-2 border-[#6F77DA] opacity-0 pointer-events-none", m.appendChild(y);
-        const d = h.timeline({ paused: !0, repeat: -1 });
-        d.to(m, {
+        const h = document.createElement("div");
+        h.className = "absolute inset-0 rounded-full border-2 border-[#6F77DA] opacity-0 pointer-events-none", m.appendChild(h);
+        const g = v.timeline({ paused: !0, repeat: -1 });
+        g.to(m, {
           scale: 1.3,
           duration: 0.8,
           ease: "power2.inOut",
           yoyo: !0,
           repeat: 1
-        }), d.to(
-          y,
+        }), g.to(
+          h,
           {
             scale: 4,
             opacity: 0.4,
@@ -310,27 +310,27 @@ const Y = [
             ease: "power2.out"
           },
           0
-        ), d.to(
-          y,
+        ), g.to(
+          h,
           {
             opacity: 0,
             duration: 0.5
           },
           1
-        ), N.create({
+        ), M.create({
           trigger: m,
           start: "top 70%",
           end: "bottom 30%",
-          onEnter: () => d.play(),
-          onLeave: () => d.pause(),
-          onEnterBack: () => d.play(),
-          onLeaveBack: () => d.pause()
+          onEnter: () => g.play(),
+          onLeave: () => g.pause(),
+          onEnterBack: () => g.play(),
+          onLeaveBack: () => g.pause()
         });
       });
-    }, n);
-    return () => g.revert();
-  }, []), /* @__PURE__ */ s("section", { className: "py-12 md:py-20 bg-white", children: /* @__PURE__ */ v("div", { className: "max-w-7xl mx-auto px-4 md:px-6", children: [
-    /* @__PURE__ */ v("div", { className: "text-center mb-12 md:mb-16", children: [
+    }, o);
+    return () => p.revert();
+  }, []), /* @__PURE__ */ s("section", { className: "py-12 md:py-20 bg-white", children: /* @__PURE__ */ x("div", { className: "max-w-7xl mx-auto px-4 md:px-6", children: [
+    /* @__PURE__ */ x("div", { className: "text-center mb-12 md:mb-16", children: [
       /* @__PURE__ */ s("p", { className: "text-primary-500 text-[1.5rem] md:text-base font-normal mb-2", children: "Company History" }),
       /* @__PURE__ */ s(
         "h2",
@@ -341,7 +341,7 @@ const Y = [
         }
       )
     ] }),
-    /* @__PURE__ */ v("div", { ref: n, className: "relative", children: [
+    /* @__PURE__ */ x("div", { ref: o, className: "relative", children: [
       /* @__PURE__ */ s("div", { className: "timeline-line absolute left-1/2 md:left-1/2 transform -translate-x-1/2 md:-translate-x-1/2 w-[0.125rem] bg-gray-200 h-full md:block hidden rounded-2xl" }),
       /* @__PURE__ */ s("div", { className: "timeline-line absolute left-8 md:hidden w-1 bg-gray-200 h-full block" }),
       /* @__PURE__ */ s(
@@ -351,34 +351,34 @@ const Y = [
           style: { height: "0%" }
         }
       ),
-      /* @__PURE__ */ s("div", { className: "space-y-16 md:space-y-24", children: u.map((g, p) => {
-        const f = p % 2 === 0;
-        return /* @__PURE__ */ v(
+      /* @__PURE__ */ s("div", { className: "space-y-16 md:space-y-24", children: u.map((p, f) => {
+        const y = f % 2 === 0;
+        return /* @__PURE__ */ x(
           "div",
           {
-            className: `timeline-item overflow-hidden relative flex items-start md:items-start ${f ? "md:justify-start justify-start" : "md:justify-end justify-start"}`,
+            className: `timeline-item overflow-hidden relative flex items-start md:items-start ${y ? "md:justify-start justify-start" : "md:justify-end justify-start"}`,
             children: [
               /* @__PURE__ */ s("div", { className: "year-dot absolute left-1/2 transform -translate-x-1/2 w-[0.25rem] h-[0.25rem] bg-[#6F77DA] rounded-[0.125rem] top-[calc(3.2rem_/_2)] shadow-lg z-10 hidden md:block" }),
               /* @__PURE__ */ s("div", { className: "year-dot absolute left-[34px] transform -translate-x-1/2 w-[0.5rem] h-[0.5rem] bg-[#6F77DA] rounded-full shadow-lg z-10 block md:hidden top-2" }),
-              /* @__PURE__ */ v(
+              /* @__PURE__ */ x(
                 "div",
                 {
-                  className: `w-full md:w-5/12 ${f ? "md:pr-8 md:text-right pr-0 pl-16 text-left" : "md:pl-8 md:text-left pl-16  text-left"}`,
+                  className: `w-full md:w-5/12 ${y ? "md:pr-8 md:text-right pr-0 pl-16 text-left" : "md:pl-8 md:text-left pl-16  text-left"}`,
                   children: [
                     /* @__PURE__ */ s(
                       "h3",
                       {
                         className: `title-year text-[2rem] md:text-[2.5rem] leading-[2.5rem] md:leading-[3rem] font-bold bg-gradient-to-b from-[#6F77DA] to-transparent bg-clip-text text-transparent mb-3 md:mb-4  ${t || ""}`,
-                        children: g.year
+                        children: p.year
                       }
                     ),
-                    /* @__PURE__ */ s("div", { className: "desc space-y-2", children: g.items.map((x, b) => /* @__PURE__ */ v(
+                    /* @__PURE__ */ s("div", { className: "desc space-y-2", children: p.items.map((D, b) => /* @__PURE__ */ x(
                       "p",
                       {
                         className: `text-[1rem] md:text-[1.125rem] leading-[1.5rem] md:leading-[1.75rem] text-gray-800 ${r || ""}`,
                         children: [
                           "• ",
-                          x
+                          D
                         ]
                       },
                       b
@@ -388,65 +388,66 @@ const Y = [
               )
             ]
           },
-          g.year
+          p.year
         );
       }) })
     ] })
   ] }) });
-}, H = ({ clsStyles: e }) => /* @__PURE__ */ s(
+}, W = ({ clsStyles: e }) => /* @__PURE__ */ s(
   "div",
   {
     className: `scroll-progress origin-left h-1 w-full bg-gradient-to-r from-indigo-500 to-teal-500 z-[1000] fixed top-0 left-0 ${e || ""}`
   }
-), $ = ({ onProcess: e, children: t }) => {
-  const r = w(null), n = L((c) => {
+), J = ({ onProcess: e, children: t }) => {
+  const r = N(null), o = S((c) => {
     r.current && r.current.disconnect(), r.current = new IntersectionObserver((u) => {
       u[0].isIntersecting && e();
     }), c && r.current.observe(c);
   }, []);
-  return /* @__PURE__ */ s("div", { ref: n, children: t });
-}, z = ({ ulClsStyles: e, liClsStyles: t, data: r }) => {
-  let n = !1, c = 0, u, g, p;
-  const f = (o, i, a) => Math.abs(
-    (o.x * (i.y - a.y) + i.x * (a.y - o.y) + a.x * (o.y - i.y)) / 2
-  ), x = function(o, i, a, l) {
-    var m = f(i, a, o), D = f(a, o, l), y = f(l, i, o), d = f(i, a, l);
-    return d == m + D + y;
-  }, b = function(o, i) {
+  return /* @__PURE__ */ s("div", { ref: o, children: t });
+}, Q = ({ ulClsStyles: e, liClsStyles: t, data: r }) => {
+  let o = !1, c = 0, u, p, f;
+  const y = (n, i, a) => Math.abs(
+    (n.x * (i.y - a.y) + i.x * (a.y - n.y) + a.x * (n.y - i.y)) / 2
+  ), D = function(n, i, a, l) {
+    var m = y(i, a, n), w = y(a, n, l), h = y(l, i, n), g = y(i, a, l);
+    return g == m + w + h;
+  }, b = function(n, i) {
     var a;
-    return [...(a = o == null ? void 0 : o.parentNode) == null ? void 0 : a.children].filter(
-      (l) => i ? l.className === i : l !== o
+    return [...(a = n == null ? void 0 : n.parentNode) == null ? void 0 : a.children].filter(
+      (l) => i ? l.className === i : l !== n
     );
   };
-  return S(() => {
-    const o = document.querySelectorAll(".menu .menu-item a"), i = document.getElementById(
+  return L(() => {
+    const n = document.querySelectorAll(".menu .menu-item a"), i = document.getElementById(
       "magic-triangle"
     );
-    o.forEach(function(a) {
+    n.forEach(function(a) {
       a.addEventListener("mousemove", function(l) {
-        const m = l.target, D = m.closest(".menu-item");
-        if (n) {
-          const y = { x: l.pageX, y: l.pageY };
-          (l.pageX < c || !x(y, u, g, p)) && (n = !1), c = l.pageX;
+        var h, g, A, E, C;
+        const m = l.target, w = m.closest(".menu-item");
+        if (o) {
+          const T = { x: l.pageX, y: l.pageY };
+          (l.pageX < c || !D(T, u, p, f)) && (o = !1), c = l.pageX;
         } else {
-          D.classList.add("active");
-          const y = b(D, null), d = b(m, "sub-menu");
-          y.forEach(
-            (A) => A.classList.remove("active")
-          ), u = { x: l.pageX, y: l.pageY }, g = {
-            x: d[0].offsetLeft,
-            y: d[0].offsetTop
-          }, p = {
-            x: d[0].offsetLeft,
-            y: d[0].offsetTop + d[0].offsetHeight
+          w.classList.add("active");
+          const T = b(w, null), d = b(m, "sub-menu");
+          T.forEach(
+            (R) => R.classList.remove("active")
+          ), u = { x: l.pageX, y: l.pageY }, p = {
+            x: (h = d == null ? void 0 : d[0]) == null ? void 0 : h.offsetLeft,
+            y: (g = d == null ? void 0 : d[0]) == null ? void 0 : g.offsetTop
+          }, f = {
+            x: (A = d == null ? void 0 : d[0]) == null ? void 0 : A.offsetLeft,
+            y: ((E = d == null ? void 0 : d[0]) == null ? void 0 : E.offsetTop) + ((C = d == null ? void 0 : d[0]) == null ? void 0 : C.offsetHeight)
           }, i.setAttribute(
             "points",
-            u.x + "," + u.y + " " + g.x + "," + g.y + " " + p.x + "," + p.y + " "
-          ), n = !0;
+            u.x + "," + u.y + " " + p.x + "," + p.y + " " + f.x + "," + f.y + " "
+          ), o = !0;
         }
       });
     });
-  }, []), /* @__PURE__ */ v(k, { children: [
+  }, []), /* @__PURE__ */ x(O, { children: [
     /* @__PURE__ */ s("svg", { children: /* @__PURE__ */ s(
       "polygon",
       {
@@ -459,47 +460,47 @@ const Y = [
         }
       }
     ) }),
-    /* @__PURE__ */ s("ul", { className: `menu ${e || ""}`, children: r == null ? void 0 : r.map((o, i) => /* @__PURE__ */ v(
+    /* @__PURE__ */ s("ul", { className: `menu ${e || ""}`, children: r == null ? void 0 : r.map((n, i) => /* @__PURE__ */ x(
       "li",
       {
         className: `menu-item ${t || ""}`,
         children: [
-          /* @__PURE__ */ s("a", { href: o.path, target: o.target, children: o.label }),
-          (o == null ? void 0 : o.subs) && o.subs.length > 0 && /* @__PURE__ */ s("ul", { className: "sub-menu", children: o.subs.map((a, l) => /* @__PURE__ */ s("li", { className: "sub-menu-item", children: /* @__PURE__ */ s("a", { href: a.path, target: a == null ? void 0 : a.target, children: a.label }) })) })
+          /* @__PURE__ */ s("a", { href: n.path, target: n.target, children: n.label }),
+          (n == null ? void 0 : n.subs) && n.subs.length > 0 && /* @__PURE__ */ s("ul", { className: "sub-menu", children: n.subs.map((a, l) => /* @__PURE__ */ s("li", { className: "sub-menu-item", children: /* @__PURE__ */ s("a", { href: a.path, target: a == null ? void 0 : a.target, children: a.label }) })) })
         ]
       },
-      o.path + "-" + i
+      n.path + "-" + i
     )) })
   ] });
-}, K = {
-  debounce: P,
-  dates: R,
-  apis: q,
-  params: O,
-  measureText: G,
-  extractObjectKeys: M,
-  Aborter: X
-}, V = {
-  ScrollTimeline: B,
-  ScrollProgressBar: H,
-  DetectIntersectionObserver: $,
-  MagicMenuTriangle: z
-}, ee = {
-  utils: K,
-  ui: V
+}, U = {
+  debounce: j,
+  dates: _,
+  apis: H,
+  params: G,
+  measureText: z,
+  extractObjectKeys: P,
+  Aborter: $
+}, Z = {
+  ScrollTimeline: V,
+  ScrollProgressBar: W,
+  DetectIntersectionObserver: J,
+  MagicMenuTriangle: Q
+}, ae = {
+  utils: U,
+  ui: Z
 };
 export {
-  X as Aborter,
-  $ as DetectIntersectionObserver,
-  z as MagicMenuTriangle,
-  H as ScrollProgressBar,
-  B as ScrollTimeline,
-  q as apis,
-  R as dates,
-  P as debounce,
-  ee as default,
-  M as extractObjectKeys,
-  G as measureText,
-  O as params,
-  K as utils
+  $ as Aborter,
+  J as DetectIntersectionObserver,
+  Q as MagicMenuTriangle,
+  W as ScrollProgressBar,
+  V as ScrollTimeline,
+  H as apis,
+  _ as dates,
+  j as debounce,
+  ae as default,
+  P as extractObjectKeys,
+  z as measureText,
+  G as params,
+  U as utils
 };
