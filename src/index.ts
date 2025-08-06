@@ -12,6 +12,7 @@ import ScrollTimeline from "./ui/ScrollTimeline";
 import ScrollProgressBar from "./ui/ScrollProgressBar";
 import DetectIntersectionObserver from "./ui/DetectIntersectionObserver";
 import MagicMenuTriangle from "./ui/MagicMenuTriangle";
+import FlipCard from "./ui/FlipCard";
 
 // CSS is exported separately via package.json exports
 // Users should import it as: import 'master-js-utils/style.css'
@@ -30,6 +31,7 @@ const ui = {
   ScrollProgressBar,
   DetectIntersectionObserver,
   MagicMenuTriangle,
+  FlipCard,
 };
 
 // Default export
@@ -55,6 +57,7 @@ export {
   ScrollProgressBar,
   DetectIntersectionObserver,
   MagicMenuTriangle,
+  FlipCard,
 };
 
 // Export utils object

@@ -49,6 +49,8 @@ _Native CSS scroll timeline API powers this performance-optimized progress indic
   - [ScrollTimeline](#scrolltimeline)
   - [DetectIntersectionObserver](#detectintersectionobserver)
   - [MagicMenuTriangle](#magicmenutriangle)
+  - [FlipCard](#flipcard)
+  - [Horizontal Scroll Experience](#horizontal-scroll-experience)
 - [Browser Support](#browser-support)
 - [TypeScript](#typescript)
 - [Troubleshooting](#troubleshooting)
@@ -60,12 +62,14 @@ _Native CSS scroll timeline API powers this performance-optimized progress indic
 ## Features
 
 - ⚡ **Essential Utilities**: Debouncing, date manipulation, API error handling, parameter filtering, object key extraction, text measurement, and request abort control
-- 🎨 **React UI Components**: Beautiful, customizable components with smooth GSAP animations, intersection observers, and intelligent menu systems
+- 🎨 **React UI Components**: Beautiful, customizable components with smooth GSAP animations, intersection observers, intelligent menu systems, and horizontal scroll experiences
 - 📱 **Responsive Design**: Mobile-first components that adapt seamlessly to all screen sizes
 - 🌟 **Native CSS Animations**: Performance-optimized scroll progress with CSS scroll timeline API
-- 🎭 **GSAP ScrollTrigger**: Advanced scroll-based animations with bubble effects and timeline reveals
+- 🎭 **GSAP ScrollTrigger**: Advanced scroll-based animations with bubble effects, timeline reveals, and horizontal scroll experiences
 - 🔄 **Intersection Observer**: Efficient viewport detection for lazy loading and trigger events
 - 🎯 **Smart Navigation**: Magic triangle menu system for enhanced user experience
+- 🎪 **Horizontal Scroll**: Smooth horizontal scrolling sections with GSAP ScrollTrigger integration
+- 🖼️ **Interactive Cards**: Flip cards with scale and clip-path animations triggered by scroll
 - 📐 **Text Measurement**: Precise text dimension calculation for dynamic layouts
 - 🛑 **Request Management**: Centralized abort controller for API request cancellation
 - 🎯 **TypeScript First**: Comprehensive type definitions and interfaces for better developer experience
@@ -123,6 +127,7 @@ import {
   ScrollTimeline,
   DetectIntersectionObserver,
   MagicMenuTriangle,
+  FlipCard,
   debounce,
   utils,
 } from "master-js-utils";
@@ -208,6 +213,7 @@ import {
   ScrollTimeline,
   DetectIntersectionObserver,
   MagicMenuTriangle,
+  FlipCard,
 } from "master-js-utils";
 import "master-js-utils/style.css"; // Required for styling
 
@@ -773,6 +779,233 @@ The component creates an invisible triangle between the cursor position and the 
 - E-commerce category navigation
 - Dashboard and admin panel menus
 - Any UI requiring precise hover interactions
+
+---
+
+### FlipCard
+
+An interactive card component with scroll-triggered animations featuring scale and clip-path effects for stunning visual reveals.
+
+```jsx
+import React from "react";
+import { FlipCard } from "master-js-utils";
+
+const Gallery = () => {
+  const images = [
+    "https://images.unsplash.com/photo-1506426305266-2b7e740fd828?q=80&w=2070",
+    "https://images.unsplash.com/photo-1527685609591-44b0aef2400b?q=80&w=2066",
+    "https://images.unsplash.com/photo-1523419163445-589ebf1785c8?q=80&w=1740"
+  ];
+
+  return (
+    <div className="flex flex-row space-x-4">
+      {images.map((img, index) => (
+        <FlipCard
+          key={index}
+          img={img}
+          className="w-[400px] h-[500px]"
+        />
+      ))}
+    </div>
+  );
+};
+```
+
+**Props:**
+
+- `img` (string): Image URL to display in the card
+- `className` (string): Additional CSS classes for styling customization
+
+**Features:**
+
+- 🎬 **Scroll-Triggered Animation**: Automatically animates when entering viewport
+- 📐 **Clip-Path Animation**: Smooth reveal effect using CSS clip-path property
+- 🔍 **Scale Animation**: Subtle scale transformation for depth perception
+- ⚡ **GSAP ScrollTrigger**: Powered by high-performance GSAP animations
+- 📱 **Responsive**: Adapts to different screen sizes and orientations
+- 🎯 **Smooth Scrubbing**: Animation progress tied to scroll position
+
+**Animation Details:**
+
+The FlipCard component features a sophisticated animation sequence:
+
+1. **Initial State**: Card starts with `scale: 0.9` and fully clipped (`inset(49% 49% 49% 49%)`)
+2. **Scroll Trigger**: Animation begins when card enters viewport
+3. **Final State**: Card scales to normal size and clips reveal the full image (`inset(0% 0% 0% 0%)`)
+4. **Scrub Animation**: Progress tied to scroll position for smooth, responsive animation
+
+**Use Cases:**
+
+- Image galleries with scroll reveals
+- Portfolio showcases
+- Product displays
+- Interactive storytelling sections
+- Landing page hero sections
+
+---
+
+### Horizontal Scroll Experience
+
+Create immersive horizontal scrolling sections that convert vertical scroll into smooth horizontal movement using GSAP ScrollTrigger and Lenis.
+
+```jsx
+import React, { useEffect, useRef } from "react";
+import { FlipCard } from "master-js-utils";
+import Lenis from "lenis";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "lenis/dist/lenis.css";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const HorizontalScrollSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const horizontalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Initialize Lenis for smooth scrolling
+    const lenis = new Lenis({
+      autoRaf: true,
+    });
+
+    lenis.on("scroll", ScrollTrigger.update);
+
+    const horizontalSection = horizontalRef.current;
+    const container = containerRef.current;
+
+    if (horizontalSection && container) {
+      const cards = horizontalSection.children;
+      const cardWidth = 2000;
+      const gap = 4;
+      const totalWidth = (cardWidth + gap) * cards.length - gap;
+      const viewportWidth = window.innerWidth;
+      const scrollDistance = Math.max(0, totalWidth - viewportWidth);
+
+      // Create horizontal scroll timeline
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: "top top",
+          end: () => `+=${scrollDistance + window.innerHeight}`,
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      // Animate horizontal movement
+      tl.to(horizontalSection, {
+        x: -scrollDistance,
+        ease: "none",
+        duration: 1,
+      });
+
+      // Cleanup
+      return () => {
+        tl.kill();
+        ScrollTrigger.getAll().forEach((t) => t.kill());
+      };
+    }
+  }, []);
+
+  const cardData = [
+    "https://images.unsplash.com/photo-1506426305266-2b7e740fd828",
+    "https://images.unsplash.com/photo-1527685609591-44b0aef2400b",
+    "https://images.unsplash.com/photo-1523419163445-589ebf1785c8",
+    // Add more images...
+  ];
+
+  return (
+    <div className="bg-black w-screen">
+      {/* Intro Section */}
+      <div className="h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-white text-6xl font-bold mb-4">
+            Horizontal Scroll
+          </h1>
+          <p className="text-gray-200 text-xl">
+            Scroll down to experience the magic
+          </p>
+        </div>
+      </div>
+
+      {/* Horizontal Scroll Container */}
+      <div
+        ref={containerRef}
+        className="h-screen overflow-hidden relative"
+      >
+        <div
+          ref={horizontalRef}
+          className="flex flex-row h-full items-center pl-8 will-change-transform"
+          style={{ width: "max-content" }}
+        >
+          {cardData.map((img, index) => (
+            <FlipCard
+              key={index}
+              className="flip-card flex-shrink-0 w-[400px] mx-1"
+              img={img}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Continuation Section */}
+      <div className="h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-white text-4xl font-bold mb-4">
+            Back to Vertical
+          </h2>
+          <p className="text-gray-400 text-lg">
+            Normal scrolling continues here
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+```
+
+**Dependencies Required:**
+
+```bash
+npm install lenis gsap
+```
+
+**Features:**
+
+- 🎭 **GSAP ScrollTrigger**: Professional-grade scroll-based animations
+- 🌊 **Lenis Smooth Scroll**: Buttery smooth scrolling experience
+- 📌 **Pin Sections**: Locks the section during horizontal scroll
+- 📐 **Dynamic Calculations**: Automatically calculates scroll distances based on content
+- 📱 **Responsive**: Adapts to different screen sizes and content amounts
+- ⚡ **Performance Optimized**: Uses `will-change-transform` for GPU acceleration
+- 🔄 **Auto Refresh**: Handles window resize events automatically
+
+**How It Works:**
+
+1. **Lenis Integration**: Provides smooth, momentum-based scrolling
+2. **ScrollTrigger Setup**: Pins the container when it enters viewport
+3. **Dynamic Calculations**: Measures total content width vs. viewport width
+4. **Horizontal Translation**: Converts vertical scroll to horizontal `translateX`
+5. **Scrub Animation**: Ties animation progress directly to scroll position
+6. **Auto Cleanup**: Properly destroys animations on component unmount
+
+**Technical Implementation:**
+
+- **Pin Duration**: Calculated based on total horizontal scroll distance
+- **Scroll Distance**: `(cardWidth + gap) * cardCount - viewportWidth`
+- **Animation Easing**: `none` for direct scroll-to-animation mapping
+- **GPU Acceleration**: Uses `transform` properties for optimal performance
+
+**Use Cases:**
+
+- Image galleries and portfolios
+- Product showcases
+- Timeline presentations
+- Interactive storytelling
+- Landing page sections
+- E-commerce product carousels
 
 ---
 
